@@ -1,0 +1,391 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<process version="6.0.003">
+  <context>
+    <input/>
+    <output/>
+    <macros/>
+  </context>
+  <operator activated="true" class="process" compatibility="6.0.003" expanded="true" name="Process">
+    <parameter key="logverbosity" value="init"/>
+    <parameter key="random_seed" value="2001"/>
+    <parameter key="send_mail" value="never"/>
+    <parameter key="notification_email" value=""/>
+    <parameter key="process_duration_for_mail" value="30"/>
+    <parameter key="encoding" value="SYSTEM"/>
+    <process expanded="true">
+      <operator activated="true" class="loop_files" compatibility="6.0.003" expanded="true" height="76" name="Loop Files Train" width="90" x="45" y="30">
+        <parameter key="directory" value="E:\Lectures\2ndSem\IntroToDS\proj4\approach3\train"/>
+        <parameter key="filtered_string" value="file name (last part of the path)"/>
+        <parameter key="file_name_macro" value="file_name"/>
+        <parameter key="file_path_macro" value="file_path"/>
+        <parameter key="parent_path_macro" value="parent_path"/>
+        <parameter key="recursive" value="false"/>
+        <parameter key="iterate_over_files" value="true"/>
+        <parameter key="iterate_over_subdirs" value="false"/>
+        <process expanded="true">
+          <operator activated="true" class="read_csv" compatibility="6.0.003" expanded="true" height="60" name="Read CSV" width="90" x="179" y="165">
+            <parameter key="column_separators" value=","/>
+            <parameter key="trim_lines" value="false"/>
+            <parameter key="use_quotes" value="true"/>
+            <parameter key="quotes_character" value="&quot;"/>
+            <parameter key="escape_character" value="\"/>
+            <parameter key="skip_comments" value="false"/>
+            <parameter key="comment_characters" value="#"/>
+            <parameter key="parse_numbers" value="true"/>
+            <parameter key="decimal_character" value="."/>
+            <parameter key="grouped_digits" value="false"/>
+            <parameter key="grouping_character" value=","/>
+            <parameter key="date_format" value=""/>
+            <parameter key="first_row_as_names" value="true"/>
+            <list key="annotations"/>
+            <parameter key="time_zone" value="SYSTEM"/>
+            <parameter key="locale" value="English (United States)"/>
+            <parameter key="encoding" value="SYSTEM"/>
+            <list key="data_set_meta_data_information"/>
+            <parameter key="read_not_matching_values_as_missings" value="true"/>
+            <parameter key="datamanagement" value="double_array"/>
+          </operator>
+          <connect from_port="file object" to_op="Read CSV" to_port="file"/>
+          <connect from_op="Read CSV" from_port="output" to_port="out 1"/>
+          <portSpacing port="source_file object" spacing="0"/>
+          <portSpacing port="source_in 1" spacing="0"/>
+          <portSpacing port="sink_out 1" spacing="0"/>
+          <portSpacing port="sink_out 2" spacing="0"/>
+        </process>
+      </operator>
+      <operator activated="true" class="append" compatibility="6.0.003" expanded="true" height="76" name="Append Train" width="90" x="179" y="30">
+        <parameter key="datamanagement" value="double_array"/>
+        <parameter key="merge_type" value="all"/>
+      </operator>
+      <operator activated="true" class="loop_files" compatibility="6.0.003" expanded="true" height="76" name="Loop Files Test" width="90" x="45" y="120">
+        <parameter key="directory" value="E:\Lectures\2ndSem\IntroToDS\proj4\approach3\test"/>
+        <parameter key="filtered_string" value="file name (last part of the path)"/>
+        <parameter key="file_name_macro" value="file_name"/>
+        <parameter key="file_path_macro" value="file_path"/>
+        <parameter key="parent_path_macro" value="parent_path"/>
+        <parameter key="recursive" value="false"/>
+        <parameter key="iterate_over_files" value="true"/>
+        <parameter key="iterate_over_subdirs" value="false"/>
+        <process expanded="true">
+          <operator activated="true" class="read_csv" compatibility="6.0.003" expanded="true" height="60" name="Read CSV (2)" width="90" x="246" y="120">
+            <parameter key="column_separators" value=","/>
+            <parameter key="trim_lines" value="false"/>
+            <parameter key="use_quotes" value="true"/>
+            <parameter key="quotes_character" value="&quot;"/>
+            <parameter key="escape_character" value="\"/>
+            <parameter key="skip_comments" value="false"/>
+            <parameter key="comment_characters" value="#"/>
+            <parameter key="parse_numbers" value="true"/>
+            <parameter key="decimal_character" value="."/>
+            <parameter key="grouped_digits" value="false"/>
+            <parameter key="grouping_character" value=","/>
+            <parameter key="date_format" value=""/>
+            <parameter key="first_row_as_names" value="true"/>
+            <list key="annotations"/>
+            <parameter key="time_zone" value="SYSTEM"/>
+            <parameter key="locale" value="English (United States)"/>
+            <parameter key="encoding" value="SYSTEM"/>
+            <list key="data_set_meta_data_information"/>
+            <parameter key="read_not_matching_values_as_missings" value="true"/>
+            <parameter key="datamanagement" value="double_array"/>
+          </operator>
+          <connect from_port="file object" to_op="Read CSV (2)" to_port="file"/>
+          <connect from_op="Read CSV (2)" from_port="output" to_port="out 1"/>
+          <portSpacing port="source_file object" spacing="0"/>
+          <portSpacing port="source_in 1" spacing="0"/>
+          <portSpacing port="sink_out 1" spacing="0"/>
+          <portSpacing port="sink_out 2" spacing="0"/>
+        </process>
+      </operator>
+      <operator activated="true" class="append" compatibility="6.0.003" expanded="true" height="76" name="Append Test" width="90" x="179" y="120">
+        <parameter key="datamanagement" value="double_array"/>
+        <parameter key="merge_type" value="all"/>
+      </operator>
+      <operator activated="true" class="set_role" compatibility="6.0.003" expanded="true" height="76" name="Set Role Train" width="90" x="313" y="30">
+        <parameter key="attribute_name" value="Label"/>
+        <parameter key="target_role" value="label"/>
+        <list key="set_additional_roles"/>
+      </operator>
+      <operator activated="true" class="k_means" compatibility="6.0.003" expanded="true" height="76" name="Clustering" width="90" x="447" y="30">
+        <parameter key="add_cluster_attribute" value="true"/>
+        <parameter key="add_as_label" value="false"/>
+        <parameter key="remove_unlabeled" value="false"/>
+        <parameter key="k" value="8"/>
+        <parameter key="max_runs" value="10"/>
+        <parameter key="determine_good_start_values" value="false"/>
+        <parameter key="measure_types" value="BregmanDivergences"/>
+        <parameter key="mixed_measure" value="MixedEuclideanDistance"/>
+        <parameter key="nominal_measure" value="NominalDistance"/>
+        <parameter key="numerical_measure" value="ChebychevDistance"/>
+        <parameter key="divergence" value="SquaredEuclideanDistance"/>
+        <parameter key="kernel_type" value="radial"/>
+        <parameter key="kernel_gamma" value="1.0"/>
+        <parameter key="kernel_sigma1" value="1.0"/>
+        <parameter key="kernel_sigma2" value="0.0"/>
+        <parameter key="kernel_sigma3" value="2.0"/>
+        <parameter key="kernel_degree" value="3.0"/>
+        <parameter key="kernel_shift" value="1.0"/>
+        <parameter key="kernel_a" value="1.0"/>
+        <parameter key="kernel_b" value="0.0"/>
+        <parameter key="max_optimization_steps" value="100"/>
+        <parameter key="use_local_random_seed" value="false"/>
+        <parameter key="local_random_seed" value="1992"/>
+      </operator>
+      <operator activated="true" class="set_role" compatibility="6.0.003" expanded="true" height="76" name="Set Role Test" width="90" x="313" y="120">
+        <parameter key="attribute_name" value="Label"/>
+        <parameter key="target_role" value="label"/>
+        <list key="set_additional_roles"/>
+      </operator>
+      <operator activated="true" class="select_attributes" compatibility="6.0.003" expanded="true" height="76" name="Select Attributes Ignore ID" width="90" x="581" y="30">
+        <parameter key="attribute_filter_type" value="single"/>
+        <parameter key="attribute" value="id"/>
+        <parameter key="attributes" value=""/>
+        <parameter key="use_except_expression" value="false"/>
+        <parameter key="value_type" value="attribute_value"/>
+        <parameter key="use_value_type_exception" value="false"/>
+        <parameter key="except_value_type" value="time"/>
+        <parameter key="block_type" value="attribute_block"/>
+        <parameter key="use_block_type_exception" value="false"/>
+        <parameter key="except_block_type" value="value_matrix_row_start"/>
+        <parameter key="invert_selection" value="true"/>
+        <parameter key="include_special_attributes" value="true"/>
+      </operator>
+      <operator activated="true" class="apply_model" compatibility="6.0.003" expanded="true" height="76" name="Apply Model Cluster Test" width="90" x="581" y="120">
+        <list key="application_parameters"/>
+        <parameter key="create_view" value="false"/>
+      </operator>
+      <operator activated="true" class="append" compatibility="6.0.003" expanded="true" height="94" name="Append Train Test Intermediate" width="90" x="715" y="30">
+        <parameter key="datamanagement" value="double_array"/>
+        <parameter key="merge_type" value="all"/>
+      </operator>
+      <operator activated="true" class="loop" compatibility="6.0.003" expanded="true" height="76" name="Loop for Bonus" width="90" x="45" y="255">
+        <parameter key="set_iteration_macro" value="true"/>
+        <parameter key="macro_name" value="iteration"/>
+        <parameter key="macro_start_value" value="1"/>
+        <parameter key="iterations" value="300"/>
+        <parameter key="limit_time" value="false"/>
+        <parameter key="timeout" value="1"/>
+        <process expanded="true">
+          <operator activated="true" class="generate_macro" compatibility="6.0.003" expanded="true" height="76" name="Generate Macro" width="90" x="45" y="30">
+            <list key="function_descriptions">
+              <parameter key="startRange" value="(%{iteration}-1)*100+1"/>
+              <parameter key="endRange" value="%{iteration}*100"/>
+            </list>
+            <parameter key="use_standard_constants" value="true"/>
+          </operator>
+          <operator activated="true" class="filter_example_range" compatibility="6.0.003" expanded="true" height="76" name="Filter Example Range" width="90" x="179" y="30">
+            <parameter key="first_example" value="%{startRange}"/>
+            <parameter key="last_example" value="%{endRange}"/>
+            <parameter key="invert_filter" value="false"/>
+          </operator>
+          <operator activated="true" class="aggregate" compatibility="6.0.003" expanded="true" height="76" name="Aggregate" width="90" x="313" y="30">
+            <parameter key="use_default_aggregation" value="false"/>
+            <parameter key="attribute_filter_type" value="all"/>
+            <parameter key="attribute" value=""/>
+            <parameter key="attributes" value=""/>
+            <parameter key="use_except_expression" value="false"/>
+            <parameter key="value_type" value="attribute_value"/>
+            <parameter key="use_value_type_exception" value="false"/>
+            <parameter key="except_value_type" value="time"/>
+            <parameter key="block_type" value="attribute_block"/>
+            <parameter key="use_block_type_exception" value="false"/>
+            <parameter key="except_block_type" value="value_matrix_row_start"/>
+            <parameter key="invert_selection" value="false"/>
+            <parameter key="include_special_attributes" value="false"/>
+            <parameter key="default_aggregation_function" value="average"/>
+            <list key="aggregation_attributes">
+              <parameter key="Red" value="count"/>
+            </list>
+            <parameter key="group_by_attributes" value="cluster"/>
+            <parameter key="count_all_combinations" value="true"/>
+            <parameter key="only_distinct" value="false"/>
+            <parameter key="ignore_missings" value="false"/>
+          </operator>
+          <operator activated="true" class="select_attributes" compatibility="6.0.003" expanded="true" height="76" name="Select Attributes (Row Count)" width="90" x="447" y="30">
+            <parameter key="attribute_filter_type" value="single"/>
+            <parameter key="attribute" value="count(Red)"/>
+            <parameter key="attributes" value=""/>
+            <parameter key="use_except_expression" value="false"/>
+            <parameter key="value_type" value="attribute_value"/>
+            <parameter key="use_value_type_exception" value="false"/>
+            <parameter key="except_value_type" value="time"/>
+            <parameter key="block_type" value="attribute_block"/>
+            <parameter key="use_block_type_exception" value="false"/>
+            <parameter key="except_block_type" value="value_matrix_row_start"/>
+            <parameter key="invert_selection" value="false"/>
+            <parameter key="include_special_attributes" value="false"/>
+          </operator>
+          <operator activated="true" class="transpose" compatibility="6.0.003" expanded="true" height="76" name="Transpose" width="90" x="581" y="30"/>
+          <operator activated="true" class="generate_attributes" compatibility="6.0.003" expanded="true" height="76" name="Generate Attributes" width="90" x="715" y="30">
+            <list key="function_descriptions">
+              <parameter key="label" value="if((%{iteration}&lt;=30)||((%{iteration}&gt;=181)&amp;&amp;(%{iteration}&lt;=200)),&quot;Class 1&quot;,if((((%{iteration}&gt;=31)&amp;&amp;(%{iteration}&lt;=60))||((%{iteration}&gt;=201)&amp;&amp;(%{iteration}&lt;=220))),&quot;Class 2&quot;,if((((%{iteration}&gt;=61)&amp;&amp;(%{iteration}&lt;=90))||((%{iteration}&gt;=221)&amp;&amp;(%{iteration}&lt;=240))),&quot;Class 3&quot;,if((((%{iteration}&gt;=91)&amp;&amp;(%{iteration}&lt;=120))||((%{iteration}&gt;=241)&amp;&amp;(%{iteration}&lt;=260))),&quot;Class 4&quot;,if((((%{iteration}&gt;=121)&amp;&amp;(%{iteration}&lt;=150))||((%{iteration}&gt;=261)&amp;&amp;(%{iteration}&lt;=280))),&quot;Class 5&quot;,&quot;Class 6&quot;)))))"/>
+            </list>
+            <parameter key="use_standard_constants" value="true"/>
+            <parameter key="keep_all" value="true"/>
+          </operator>
+          <connect from_port="input 1" to_op="Generate Macro" to_port="through 1"/>
+          <connect from_op="Generate Macro" from_port="through 1" to_op="Filter Example Range" to_port="example set input"/>
+          <connect from_op="Filter Example Range" from_port="example set output" to_op="Aggregate" to_port="example set input"/>
+          <connect from_op="Aggregate" from_port="example set output" to_op="Select Attributes (Row Count)" to_port="example set input"/>
+          <connect from_op="Select Attributes (Row Count)" from_port="example set output" to_op="Transpose" to_port="example set input"/>
+          <connect from_op="Transpose" from_port="example set output" to_op="Generate Attributes" to_port="example set input"/>
+          <connect from_op="Generate Attributes" from_port="example set output" to_port="output 1"/>
+          <portSpacing port="source_input 1" spacing="0"/>
+          <portSpacing port="source_input 2" spacing="0"/>
+          <portSpacing port="sink_output 1" spacing="0"/>
+          <portSpacing port="sink_output 2" spacing="0"/>
+        </process>
+      </operator>
+      <operator activated="true" class="append" compatibility="6.0.003" expanded="true" height="76" name="Append Intermediate Output" width="90" x="179" y="255">
+        <parameter key="datamanagement" value="double_array"/>
+        <parameter key="merge_type" value="all"/>
+      </operator>
+      <operator activated="true" class="set_role" compatibility="6.0.003" expanded="true" height="76" name="Set Role Label" width="90" x="313" y="255">
+        <parameter key="attribute_name" value="label"/>
+        <parameter key="target_role" value="label"/>
+        <list key="set_additional_roles"/>
+      </operator>
+      <operator activated="true" class="multiply" compatibility="6.0.003" expanded="true" height="94" name="Multiply" width="90" x="447" y="255"/>
+      <operator activated="true" class="filter_example_range" compatibility="6.0.003" expanded="true" height="76" name="Filter Example Range Test" width="90" x="581" y="390">
+        <parameter key="first_example" value="181"/>
+        <parameter key="last_example" value="300"/>
+        <parameter key="invert_filter" value="false"/>
+      </operator>
+      <operator activated="true" class="filter_example_range" compatibility="6.0.003" expanded="true" height="76" name="Filter Example Range Train" width="90" x="581" y="255">
+        <parameter key="first_example" value="1"/>
+        <parameter key="last_example" value="180"/>
+        <parameter key="invert_filter" value="false"/>
+      </operator>
+      <operator activated="true" class="x_validation" compatibility="6.0.003" expanded="true" height="112" name="Validation" width="90" x="715" y="255">
+        <parameter key="create_complete_model" value="false"/>
+        <parameter key="average_performances_only" value="true"/>
+        <parameter key="leave_one_out" value="false"/>
+        <parameter key="number_of_validations" value="15"/>
+        <parameter key="sampling_type" value="stratified sampling"/>
+        <parameter key="use_local_random_seed" value="false"/>
+        <parameter key="local_random_seed" value="1992"/>
+        <process expanded="true">
+          <operator activated="true" class="decision_tree" compatibility="6.0.003" expanded="true" height="76" name="Decision Tree" width="90" x="168" y="30">
+            <parameter key="criterion" value="gini_index"/>
+            <parameter key="minimal_size_for_split" value="4"/>
+            <parameter key="minimal_leaf_size" value="2"/>
+            <parameter key="minimal_gain" value="0.1"/>
+            <parameter key="maximal_depth" value="10"/>
+            <parameter key="confidence" value="0.25"/>
+            <parameter key="number_of_prepruning_alternatives" value="3"/>
+            <parameter key="no_pre_pruning" value="false"/>
+            <parameter key="no_pruning" value="false"/>
+          </operator>
+          <connect from_port="training" to_op="Decision Tree" to_port="training set"/>
+          <connect from_op="Decision Tree" from_port="model" to_port="model"/>
+          <portSpacing port="source_training" spacing="0"/>
+          <portSpacing port="sink_model" spacing="0"/>
+          <portSpacing port="sink_through 1" spacing="0"/>
+        </process>
+        <process expanded="true">
+          <operator activated="true" class="apply_model" compatibility="6.0.003" expanded="true" height="76" name="Apply Model Decision Tree Train" width="90" x="45" y="30">
+            <list key="application_parameters"/>
+            <parameter key="create_view" value="false"/>
+          </operator>
+          <operator activated="true" class="performance_classification" compatibility="6.0.003" expanded="true" height="76" name="Performance Train" width="90" x="270" y="30">
+            <parameter key="main_criterion" value="first"/>
+            <parameter key="accuracy" value="true"/>
+            <parameter key="classification_error" value="false"/>
+            <parameter key="kappa" value="false"/>
+            <parameter key="weighted_mean_recall" value="false"/>
+            <parameter key="weighted_mean_precision" value="false"/>
+            <parameter key="spearman_rho" value="false"/>
+            <parameter key="kendall_tau" value="false"/>
+            <parameter key="absolute_error" value="false"/>
+            <parameter key="relative_error" value="false"/>
+            <parameter key="relative_error_lenient" value="false"/>
+            <parameter key="relative_error_strict" value="false"/>
+            <parameter key="normalized_absolute_error" value="false"/>
+            <parameter key="root_mean_squared_error" value="false"/>
+            <parameter key="root_relative_squared_error" value="false"/>
+            <parameter key="squared_error" value="true"/>
+            <parameter key="correlation" value="false"/>
+            <parameter key="squared_correlation" value="false"/>
+            <parameter key="cross-entropy" value="false"/>
+            <parameter key="margin" value="false"/>
+            <parameter key="soft_margin_loss" value="false"/>
+            <parameter key="logistic_loss" value="false"/>
+            <parameter key="skip_undefined_labels" value="true"/>
+            <parameter key="use_example_weights" value="true"/>
+            <list key="class_weights"/>
+          </operator>
+          <connect from_port="model" to_op="Apply Model Decision Tree Train" to_port="model"/>
+          <connect from_port="test set" to_op="Apply Model Decision Tree Train" to_port="unlabelled data"/>
+          <connect from_op="Apply Model Decision Tree Train" from_port="labelled data" to_op="Performance Train" to_port="labelled data"/>
+          <connect from_op="Performance Train" from_port="performance" to_port="averagable 1"/>
+          <portSpacing port="source_model" spacing="0"/>
+          <portSpacing port="source_test set" spacing="0"/>
+          <portSpacing port="source_through 1" spacing="0"/>
+          <portSpacing port="sink_averagable 1" spacing="0"/>
+          <portSpacing port="sink_averagable 2" spacing="0"/>
+        </process>
+      </operator>
+      <operator activated="true" class="apply_model" compatibility="6.0.003" expanded="true" height="76" name="Apply Model Decision Tree Test" width="90" x="715" y="390">
+        <list key="application_parameters"/>
+        <parameter key="create_view" value="false"/>
+      </operator>
+      <operator activated="true" class="performance_classification" compatibility="6.0.003" expanded="true" height="76" name="Performance Decision Tree Test" width="90" x="715" y="525">
+        <parameter key="main_criterion" value="first"/>
+        <parameter key="accuracy" value="true"/>
+        <parameter key="classification_error" value="false"/>
+        <parameter key="kappa" value="false"/>
+        <parameter key="weighted_mean_recall" value="false"/>
+        <parameter key="weighted_mean_precision" value="false"/>
+        <parameter key="spearman_rho" value="false"/>
+        <parameter key="kendall_tau" value="false"/>
+        <parameter key="absolute_error" value="false"/>
+        <parameter key="relative_error" value="false"/>
+        <parameter key="relative_error_lenient" value="false"/>
+        <parameter key="relative_error_strict" value="false"/>
+        <parameter key="normalized_absolute_error" value="false"/>
+        <parameter key="root_mean_squared_error" value="false"/>
+        <parameter key="root_relative_squared_error" value="false"/>
+        <parameter key="squared_error" value="true"/>
+        <parameter key="correlation" value="false"/>
+        <parameter key="squared_correlation" value="false"/>
+        <parameter key="cross-entropy" value="false"/>
+        <parameter key="margin" value="false"/>
+        <parameter key="soft_margin_loss" value="false"/>
+        <parameter key="logistic_loss" value="false"/>
+        <parameter key="skip_undefined_labels" value="true"/>
+        <parameter key="use_example_weights" value="true"/>
+        <list key="class_weights"/>
+      </operator>
+      <connect from_op="Loop Files Train" from_port="out 1" to_op="Append Train" to_port="example set 1"/>
+      <connect from_op="Append Train" from_port="merged set" to_op="Set Role Train" to_port="example set input"/>
+      <connect from_op="Loop Files Test" from_port="out 1" to_op="Append Test" to_port="example set 1"/>
+      <connect from_op="Append Test" from_port="merged set" to_op="Set Role Test" to_port="example set input"/>
+      <connect from_op="Set Role Train" from_port="example set output" to_op="Clustering" to_port="example set"/>
+      <connect from_op="Clustering" from_port="cluster model" to_op="Apply Model Cluster Test" to_port="model"/>
+      <connect from_op="Clustering" from_port="clustered set" to_op="Select Attributes Ignore ID" to_port="example set input"/>
+      <connect from_op="Set Role Test" from_port="example set output" to_op="Apply Model Cluster Test" to_port="unlabelled data"/>
+      <connect from_op="Select Attributes Ignore ID" from_port="example set output" to_op="Append Train Test Intermediate" to_port="example set 1"/>
+      <connect from_op="Apply Model Cluster Test" from_port="labelled data" to_op="Append Train Test Intermediate" to_port="example set 2"/>
+      <connect from_op="Apply Model Cluster Test" from_port="model" to_port="result 4"/>
+      <connect from_op="Append Train Test Intermediate" from_port="merged set" to_op="Loop for Bonus" to_port="input 1"/>
+      <connect from_op="Loop for Bonus" from_port="output 1" to_op="Append Intermediate Output" to_port="example set 1"/>
+      <connect from_op="Append Intermediate Output" from_port="merged set" to_op="Set Role Label" to_port="example set input"/>
+      <connect from_op="Set Role Label" from_port="example set output" to_op="Multiply" to_port="input"/>
+      <connect from_op="Multiply" from_port="output 1" to_op="Filter Example Range Train" to_port="example set input"/>
+      <connect from_op="Multiply" from_port="output 2" to_op="Filter Example Range Test" to_port="example set input"/>
+      <connect from_op="Filter Example Range Test" from_port="example set output" to_op="Apply Model Decision Tree Test" to_port="unlabelled data"/>
+      <connect from_op="Filter Example Range Train" from_port="example set output" to_op="Validation" to_port="training"/>
+      <connect from_op="Validation" from_port="model" to_op="Apply Model Decision Tree Test" to_port="model"/>
+      <connect from_op="Validation" from_port="averagable 1" to_port="result 2"/>
+      <connect from_op="Apply Model Decision Tree Test" from_port="labelled data" to_op="Performance Decision Tree Test" to_port="labelled data"/>
+      <connect from_op="Apply Model Decision Tree Test" from_port="model" to_port="result 3"/>
+      <connect from_op="Performance Decision Tree Test" from_port="performance" to_port="result 1"/>
+      <portSpacing port="source_input 1" spacing="0"/>
+      <portSpacing port="sink_result 1" spacing="0"/>
+      <portSpacing port="sink_result 2" spacing="0"/>
+      <portSpacing port="sink_result 3" spacing="0"/>
+      <portSpacing port="sink_result 4" spacing="0"/>
+      <portSpacing port="sink_result 5" spacing="0"/>
+    </process>
+  </operator>
+</process>
